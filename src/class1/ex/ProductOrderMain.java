@@ -1,29 +1,52 @@
 package class1.ex;
 
+import java.util.Scanner;
+
 public class ProductOrderMain {
     public static void main(String[] args) {
-        ProductOrder[] productOrders = new ProductOrder[3];
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
 
-        productOrders[0] = new ProductOrder();
-        productOrders[0].productName = "두부";
-        productOrders[0].price = 2000;
-        productOrders[0].quantity = 2;
+        ProductOrder[] productOrders = new ProductOrder[n];
 
-        productOrders[1] = new ProductOrder();
-        productOrders[1].productName = "김치";
-        productOrders[1].price = 5000;
-        productOrders[1].quantity = 1;
+        for (int i = 0; i < n; i++) {
+            System.out.println(i + 1 + "번째 주문 정보를 입력하세요.");
 
-        productOrders[2] = new ProductOrder();
-        productOrders[2].productName = "콜라";
-        productOrders[2].price = 1500;
-        productOrders[2].quantity = 2;
+            System.out.print("상품명: ");
+            String productName = sc.next();
+            System.out.print("가격: ");
+            int price = sc.nextInt();
+            System.out.print("수량: ");
+            int quantity = sc.nextInt();
 
-        int totalPrice = 0;
-        for (ProductOrder productOrder : productOrders) {
-            System.out.println("상품명: " + productOrder.productName + ", 가격: " + productOrder.price + ", 수량: " + productOrder.quantity);
-            totalPrice += productOrder.price * productOrder.quantity;
+            productOrders[i] = createOrder(productName, price, quantity);
         }
-        System.out.println("총 결제 금액: " + totalPrice);
+
+        printOrders(productOrders);
+
+        int totalAmount = getTotalAmount(productOrders);
+        System.out.println("총 결제 금액: " + totalAmount);
+    }
+
+    public static ProductOrder createOrder(String productName, int price, int quantity) {
+        ProductOrder productOrder = new ProductOrder();
+        productOrder.productName = productName;
+        productOrder.price = price;
+        productOrder.quantity = quantity;
+        return productOrder;
+    }
+
+    public static void printOrders(ProductOrder[] orders) {
+        for (ProductOrder order : orders) {
+            System.out.println("상품명: " + order.productName + ", 가격: " + order.price + ", 수량: " + order.quantity);
+        }
+    }
+
+    public static int getTotalAmount(ProductOrder[] orders) {
+        int totalAmount = 0;
+        for (ProductOrder order : orders) {
+            totalAmount += order.price * order.quantity;
+        }
+        return totalAmount;
     }
 }
